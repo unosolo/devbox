@@ -76,7 +76,6 @@ sites:
         url: site.example2.dev
         root: /vagrant/sites/example2
 
-
 ```
 The domain name must be added to your machines `hosts` file. Example: 
 ```
@@ -84,9 +83,16 @@ The domain name must be added to your machines `hosts` file. Example:
 192.168.22.18   site.example2.dev
 
 ```
-To create a self-signed SSL certificate for the site add the following `ssl` property.
+To create a self-signed SSL certificate for the site add the following `ssl` property to the site where you want to add it.
 ```
-ssl: true
+sites: 
+    - site1:
+        url: site.example1.dev
+        root: /vagrant/sites/example1
+        ssl: true
+    - site2:
+        url: site.example2.dev
+        root: /vagrant/sites/example2
 ```
 
 
