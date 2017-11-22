@@ -77,11 +77,12 @@ sites:
         root: /vagrant/sites/example2
 
 
-root: /path/to/root/folder/on/vm
 ```
 The domain name must be added to your machines `hosts` file. Example: 
 ```
-192.168.22.18   mysite.dev
+192.168.22.18   site.example1.dev
+192.168.22.18   site.example2.dev
+
 ```
 To create a self-signed SSL certificate for the site add the following `ssl` property.
 ```
