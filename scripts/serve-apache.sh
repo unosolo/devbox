@@ -92,5 +92,10 @@ then
 fi
 
 a2ensite ${www_host}.conf > /dev/null 2>&1
-a2dissite 000-default > /dev/null 2>&1
+
+if [[ -f "/etc/apache2/sites-enabled/000-default.conf" ]]
+then
+    a2dissite 000-default > /dev/null 2>&1
+fi
+
 service apache2 restart > /dev/null 2>&1

@@ -65,10 +65,18 @@ mysql-ver: "5.6"
 ```
 
 
-#### Website
-You can set up a site by mapping a domain name to a root folder on the VM. The domain name is set via the `site` property and the root folder set via the `root` property. By default the root folder will be set to `/vagrant`.
+#### Websites
+You can set up one or more sites by mapping the domain names to its root folder on the VM. The domain name is set via the `url` property and the root folder set via the `root` property. The root folder must be set to a directory in `/vagrant/sites/`. You must setup each site under `sites` property as follow:
 ```
-site: site.dev
+sites: 
+    - site1:
+        url: site.example1.dev
+        root: /vagrant/sites/example1
+    - site2:
+        url: site.example2.dev
+        root: /vagrant/sites/example2
+
+
 root: /path/to/root/folder/on/vm
 ```
 The domain name must be added to your machines `hosts` file. Example: 
@@ -127,3 +135,12 @@ A number of default bash aliases are created for the VM. These can be found in t
     - Grunt
     - Gulp
 - Yarn
+
+### Installing on USB or EXTERNAL DISKs
+Use `install-on-usb.sh` script when you want to install the vagrant file from an USB. The vagrant file fails when you run `vagrant up` from an USB drive. Then you need to move the generated private_key to a local directory, an create a link to it, so you can bypass the throwed error. After that, the `vagrant up` must be run again.
+
+This script only is provided to avoid to run all the steps manually.
+
+The script should run as `./install-on-usb.sh host_name`. Where `host_name` is the same name specified in the devbox.yaml file. 
+
+Note: I do not know vagrant a lot so I made this script only for my personal use. You can take it as is or, if you have better understanding of vagrant, improve the Vagrant file. But if you decide to improve it in a more eficient way, please, do not forget to share it with me :D

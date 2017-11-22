@@ -1,7 +1,16 @@
 ---
 ip: "192.168.10.10"
-site: site.dev
-root: /vagrant
+
+webserver: apache
+
+sites:
+  - site1:
+    url: site1.dev
+    root: /vagrant/sites/example1
+  - site2:
+    url: site2.dev
+    root: /vagrant/sites/example2
 
 databases:
     - dbname
+

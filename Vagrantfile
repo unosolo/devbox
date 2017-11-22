@@ -22,7 +22,6 @@ ubuntu_ver = settings["ubuntu-ver"] ||= default_ubuntu
 webserver = settings["webserver"] ||= default_webserver
 php_ver = settings["php-ver"] ||= default_php
 mysql_ver = settings["mysql-ver"] ||= default_mysql
-enable_ssl = settings["ssl"] ||= false
 
 unless supported_ubuntu.include?(ubuntu_ver)
     abort("Ubuntu version #{ubuntu_ver} not supported. Only versions #{supported_ubuntu} are currently supported.")
@@ -184,21 +183,43 @@ Vagrant.configure("2") do |config|
         end
     end
 
-    # Create site
-    if settings.has_key?("site")
-        # Install self signed SSL certificate
-        if settings.has_key?("ssl") && settings["ssl"] == true
-            config.vm.provision "shell" do |s|
-                s.name = "Installing self signed SSL certificate"
-                s.path = script_dir + "/install-ssl.sh"
-                s.args = [settings["site"], settings["country"] ||= 'GB', settings["state"] ||= 'London', settings["location"] ||= 'London', settings["organisation"] ||= 'Damian Lewis', settings["organisation-unit"] ||= 'IT Department']
-            end
-        end
 
-        config.vm.provision "shell" do |s|
-            s.name = "Creating Site: " + settings["site"]
-            s.path = script_dir + "/serve-#{webserver}.sh"
-            s.args = [settings["site"], settings["root"] ||= folder["to"], php_ver == "5.5" ? "5" : php_ver, enable_ssl ? "true" : "false"]
+    # Create site
+#    if settings.has_key?("site")
+#        # Install self signed SSL certificate
+#        if settings.has_key?("ssl") && settings["ssl"] == true
+#            config.vm.provision "shell" do |s|
+#                s.name = "Installing self signed SSL certificate"
+#                s.path = script_dir + "/install-ssl.sh"
+#                s.args = [settings["site"], settings["country"] ||= 'GB', settings["state"] ||= 'London', settings["location"] ||= 'London', settings["organisation"] ||= 'Damian Lewis', settings["organisation-unit"] ||= 'IT Department']
+#            end
+#        end
+
+#        config.vm.provision "shell" do |s|
+#            s.name = "Creating Site: " + settings["site"]
+#            s.path = script_dir + "/serve-#{webserver}.sh"
+#            s.args = [settings["site"], settings["root"] ||= folder["to"], php_ver == "5.5" ? "5" : php_ver, enable_ssl ? "true" : "false"]
+#        end
+#    end
+
+
+    if settings.has_key?("sites") #&& settings["sites"].kind_of?(Array)
+        settings["sites"].each do |site|
+            # Install self signed SSL certificate
+            enable_ssl = site["ssl"] ||= false
+            if site.has_key?("ssl") && enable_ssl == true
+                config.vm.provision "shell" do |s|
+                    s.name = "Installing self signed SSL certificate"
+                    s.path = script_dir + "/install-ssl.sh"
+                    s.args = [site["url"], site["country"] ||= 'GB', site["state"] ||= 'London', site["location"] ||= 'London', site["organisation"] ||= 'Damian Lewis', site["organisation-unit"] ||= 'IT Department']
+                end
+            end
+
+            config.vm.provision "shell" do |s|
+                s.name = "Creating Site for: " + site["url"]
+                s.path = script_dir + "/serve-#{webserver}.sh"
+                s.args = [site["url"], site["root"] ||= folder["to"], php_ver == "5.5" ? "5" : php_ver, enable_ssl ? "true" : "false"]
+            end
         end
     end
 

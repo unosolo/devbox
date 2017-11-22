@@ -66,6 +66,11 @@ block="$block
 echo "$block" > "/etc/nginx/sites-available/$www_host"
 
 ln -fs "/etc/nginx/sites-available/$www_host" "/etc/nginx/sites-enabled/$www_host"
-rm /etc/nginx/sites-enabled/default
-rm /etc/nginx/sites-available/default
+
+if [[ -f "/etc/nginx/sites-available/default" ]]
+then
+    rm /etc/nginx/sites-enabled/default
+    rm /etc/nginx/sites-available/default
+fi
+
 service nginx restart > /dev/null 2>&1
