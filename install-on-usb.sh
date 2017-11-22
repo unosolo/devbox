@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
 host_name=$1
+if [ -z "$host_name" ]
+then
+   host_name="devbox"
+fi
 
 vagrant up
 
