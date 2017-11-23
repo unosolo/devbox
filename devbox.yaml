@@ -1,7 +1,7 @@
 ---
 ip: "192.168.10.10"
 
-webserver: apache
+#webserver: apache
 
 sites:
   - site1:

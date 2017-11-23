@@ -26,8 +26,8 @@ if [[ ${enable_ssl} == 'true' ]]
 then
     block="# $www_host configuration
 server {
-    listen 80 default_server;
-    listen 443 ssl default_server;
+    listen 80;
+    listen 443 ssl;
     server_name $www_host www.$www_host;
     root $www_root;
 
@@ -37,7 +37,7 @@ server {
 else
     block="# $www_host configuration
 server {
-    listen 80 default_server;
+    listen 80;
     server_name $www_host www.$www_host;
     root $www_root;
 "
