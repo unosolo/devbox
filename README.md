@@ -156,14 +156,21 @@ Note: I do not know vagrant a lot, so I made this script only for my personal us
 
 ## Installing Symfony 4.0 on NGINX
 
+This guidelines assumes that DEVBOX has PHP 7.1 installed.
+
 #### Modifying `/etc/nginx/sites-available/example1.dev`
-devbox create a conf file for every site you specified in devbox.yaml
+DEVBOX create a conf file for every site you specified in devbox.yaml. Suppose one of your create web site is example1.dev.
 
 Follow the Symfony document to set a virtual host in nginx: https://symfony.com/doc/current/setup/web_server_configuration.html#nginx
 
 For this, edit `/etc/nginx/sites-available/example1.dev` and update the file according Symfony documentation.
 ```
 sudo vi /etc/nginx/sites-available/example1.dev
+```
+
+Remember the root directory of the virtual host should point to the public directory of your Symphony installation, i.e.:
+```
+   root /vagrant/sites/project-one/public;
 ```
 
 After you configure your virtual host according to Symfony Documentation, look for the `fastcgi_pass` setting, it should be as follows:
@@ -173,7 +180,7 @@ After you configure your virtual host according to Symfony Documentation, look f
 
 #### Modifying `/etc/php/7.1/fpm/pool.d/www.conf`
 
-Then, open
+Then, open `/etc/php/7.1/fpm/pool.d/www.conf`
 ```
 sudo vi /etc/php/7.1/fpm/pool.d/www.conf
 ```
