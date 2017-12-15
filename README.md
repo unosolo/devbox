@@ -143,17 +143,45 @@ A number of default bash aliases are created for the VM. These can be found in t
     - Gulp
 - Yarn
 
-### Installing on USB or EXTERNAL DISKs
-Use `install-on-usb.sh` script when you want to install the vagrant file from an USB. The vagrant file fails when you run `vagrant up` from an USB drive. Then you need to move the generated private_key to a local directory, an create a link to it, so you can bypass the throwed error. After that, the `vagrant up` must be run again.
+### Installing on USB or EXTERNAL Disks
+Use `install-on-usb.sh` script when you want to install the vagrant file from a USB. 
 
-This script only is provided to avoid to run all the steps manually.
+The vagrant file fails when you run `vagrant up` from a USB drive. Then you need to move the generated private_key to a local directory, and create a link to it, so you can bypass the thrown error. After that, the `vagrant up` must be run again.
 
-The script should run as `./install-on-usb.sh host_name`. Where `host_name` is the same name specified in the devbox.yaml file. 
+This script only is provided to avoid running all the steps manually.
 
-Note: I do not know vagrant a lot so I made this script only for my personal use. You can take it as is or, if you have better understanding of vagrant, improve the Vagrant file. But if you decide to improve it in a more eficient way, please, do not forget to share it with me :D
+The script should run as `./install-on-usb.sh host_name`. `host_name` is the same name specified in the devbox.yaml file. 
+
+Note: I do not know vagrant a lot, so I made this script only for my personal use. You can take it as is or, if you have better understanding of vagrant, improve the Vagrant file. But if you decide to improve it in a more efficient way, please, do not forget to share it with me :D
 
 ## Installing Symfony 4.0 on NGINX
 
-#### Modifying /etc/nginx/sites-available/example1.dev_host
-devbox create a conf file for every site you especified in devbox.yaml
+#### Modifying `/etc/nginx/sites-available/example1.dev`
+devbox create a conf file for every site you specified in devbox.yaml
 
+Follow the Symfony document to set a virtual host in nginx: https://symfony.com/doc/current/setup/web_server_configuration.html#nginx
+
+For this, edit `/etc/nginx/sites-available/example1.dev` and update the file according Symfony documentation.
+```
+sudo vi /etc/nginx/sites-available/example1.dev
+```
+
+After you configure your virtual host according to Symfony Documentation, look for the `fastcgi_pass` setting, it should be as follows:
+```
+        fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;
+```
+
+#### Modifying `/etc/php/7.1/fpm/pool.d/www.conf`
+
+Then, open
+```
+sudo vi /etc/php/7.1/fpm/pool.d/www.conf
+```
+find
+```
+listen = /run/php/php7.1-fpm.sock
+```
+change to
+```
+listen = /var/run/php/php7.1-fpm.sock
+```
