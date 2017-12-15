@@ -151,3 +151,9 @@ This script only is provided to avoid to run all the steps manually.
 The script should run as `./install-on-usb.sh host_name`. Where `host_name` is the same name specified in the devbox.yaml file. 
 
 Note: I do not know vagrant a lot so I made this script only for my personal use. You can take it as is or, if you have better understanding of vagrant, improve the Vagrant file. But if you decide to improve it in a more eficient way, please, do not forget to share it with me :D
+
+## Installing Symfony 4.0 on NGINX
+
+#### Modifying /etc/nginx/sites-available/example1.dev_host
+devbox create a conf file for every site you especified in devbox.yaml
+
